@@ -1,30 +1,32 @@
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+import platform
 
-class ChatConsumer(AsyncWebsocketConsumer):
+class HubConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        '''self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
 
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
-        )
+        )'''
 
         await self.accept()
 
     async def disconnect(self, close_code):
         # Leave room group
+        '''
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
-        )
+        )'''
 
     # Receive message from WebSocket
     async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
+        '''text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
         # Send message to room group
@@ -34,13 +36,39 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'type': 'chat_message',
                 'message': message
             }
-        )
-
-    # Receive message from room group
-    async def chat_message(self, event):
-        message = event['message']
+        )'''
+        #system information
+        uname = platform.uname()
+        
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'message': message
+            'diagnostics': [
+                f"System: {uname.system}",
+                f"Node Name: {uname.node}",
+                f"Release: {uname.release}",
+                f"Version: {uname.version}",
+                f"Machine: {uname.machine}",
+                f"Processor: {uname.processor}"
+            ]
+        }))
+
+
+    # Diagnostics request for Horus Hub server
+    async def d_request(self, event):
+
+        #system information
+        uname = platform.uname()
+        
+
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'diagnostics': [
+                f"System: {uname.system}",
+                f"Node Name: {uname.node}",
+                f"Release: {uname.release}",
+                f"Version: {uname.version}",
+                f"Machine: {uname.machine}",
+                f"Processor: {uname.processor}"
+            ]
         }))
