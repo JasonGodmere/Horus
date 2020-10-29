@@ -1,18 +1,14 @@
 
 from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.auth import login, logout
+
 import json
 import platform
 
 class HubConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        '''self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' % self.room_name
-
-        # Join room group
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )'''
+        self.user = self.scope['user']
+        print(self.user)
 
         await self.accept()
 
@@ -38,6 +34,7 @@ class HubConsumer(AsyncWebsocketConsumer):
             }
         )'''
         #system information
+
         uname = platform.uname()
         
 
@@ -45,9 +42,9 @@ class HubConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'diagnostics': [
                 f"System: {uname.system}",
-                f"Node Name: {uname.node}",
                 f"Release: {uname.release}",
                 f"Version: {uname.version}",
+                f"Node Name: {uname.node}",
                 f"Machine: {uname.machine}",
                 f"Processor: {uname.processor}"
             ]
