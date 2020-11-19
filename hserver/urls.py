@@ -21,3 +21,8 @@ urlpatterns = [
 	path('hub/', include('hub.urls')),
     path('admin/', admin.site.urls),
 ]
+
+### TYPE 1 - Code ###
+urlpatterns += [
+    path('', include('snippets.urls')),
+]

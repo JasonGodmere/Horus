@@ -25,7 +25,7 @@ def login_request(request):
 	form = AuthenticationForm()
 	return render(request = request,
 				  template_name = "main/login.html",
-				  context={"form":form})
+				  context={"form":form}) 
 
 def logout_request(request):
 	logout(request)

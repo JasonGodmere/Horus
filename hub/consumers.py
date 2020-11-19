@@ -19,7 +19,23 @@ class HubConsumer(AsyncWebsocketConsumer):
 
     # Receive message from WebSocket
     async def receive(self, text_data):
-        
-        await self.send(text_data=json.dumps({
-            'message': json.loads(text_data),
-        }))
+        if self.scope['user'].id:
+            await self.send(text_data=json.dumps({
+                'message': "hi",
+            }))
+        else:
+            try:
+                # user is not authenticated yet
+                data = json.loads(text_data)
+                if 'token' in data.keys():
+                    token = data['token']
+                    print(data['token'])
+                    user = fetch_user_from_token(token)
+                    self.scope['user'] = user
+
+            except Exception as e:
+                # Data is not valid, so close it.
+                print(e)
+
+        if not self.scope['user'].id:
+            self.close()

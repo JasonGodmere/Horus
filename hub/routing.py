@@ -5,5 +5,5 @@ from . import consumers
 
 
 websocket_urlpatterns = [
-	re_path(r'ws/', consumers.HubConsumer),
+	re_path(r'ws/hub', consumers.HubConsumer),
 ]
