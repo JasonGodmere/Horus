@@ -32,9 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
-    'main',
-    'hub',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,7 +42,19 @@ INSTALLED_APPS = [
     # rest api
     'rest_framework',
     'snippets',
+
+    # custom user/hclient auth
+    'core',
+
+    # websocket/client
+    'channels',
+    'main',
+    'hub',
 ]
+
+### Points django to custom user model
+AUTH_USER_MODEL = 'core.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,6 +84,7 @@ TEMPLATES = [
     },
 ]
 
+
 #WSGI_APPLICATION = 'hserver.wsgi.application'
 ASGI_APPLICATION = 'hserver.routing.application'
 CHANNEL_LAYERS = {
@@ -85,7 +95,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
