@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     # rest api
     'rest_framework',
     'snippets',
+    'EOH',
 
-    # custom user/hclient auth
+    # custom auth/perm
     'core',
 
     # websocket/client
