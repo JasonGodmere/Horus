@@ -39,13 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # custom auth/perm
+    'core',
+
     # rest api
     'rest_framework',
     'snippets',
     'EOH',
-
-    # custom auth/perm
-    'core',
 
     # websocket/client
     'channels',
@@ -99,7 +99,7 @@ CHANNEL_LAYERS = {
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+''' DEFAULT SQLITE DB
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -108,7 +108,20 @@ DATABASES = {
             'NAME': os.path.join(BASE_DIR, 'db_test.sqlite3')
         }
     }
+}'''
+
+### PostgreSQL DB
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'hserver_db',#name of the database on postgresql
+        'USER': 'hserver',#user on postgresql associated with this server
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
 }
+
 
 
 # Password validation

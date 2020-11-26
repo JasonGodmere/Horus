@@ -36,20 +36,3 @@ class Cluster(models.Model):
 
 	class Meta:
 		ordering = ['name']
-
-
-
-# EOH Node Model
-# only registers new nodes into database if the owner has initialized it into a cluster
-class Node(models.Model):
-	ip_address = models.GenericIPAddressField()
-	name = models.CharField(max_length=100)
-	initialized = models.DateTimeField(auto_now_add=True)
-	last_update = models.DateTimeField(auto_now=True)
-	cluster = models.ForeignKey(Cluster, on_delete=models.CASCADE)
-
-	def __str__(self):
-		return self.ip_address
-
-	class Meta:
-		ordering = ['ip_address']

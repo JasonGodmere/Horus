@@ -71,6 +71,7 @@ for i in range(0, 8760):
 	data.loc[i, 'to_csv_time'] = to_csv_time
 	data.loc[i, 'from_csv_time'] = from_csv_time
 
+print()
 
 data.plot()
 plt.show()
