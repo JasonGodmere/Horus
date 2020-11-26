@@ -27,7 +27,7 @@ class Cluster(models.Model):
 	created_on = models.DateTimeField(auto_now_add=True)
 	last_update = models.DateTimeField(auto_now=True)
 
-	owner = models.ForeignKey(User, on_delete=models.CASCADE)
+	owner = models.ForeignKey('User', on_delete=models.CASCADE)
 	contributors = models.ManyToManyField('Profile', blank=True, null=True)
 
 

@@ -14,14 +14,14 @@ class Node(models.Model):
         default = uuid.uuid4, 
         editable = False,
     )
-    ip_address = models.GenericIPAddressField(unique=True)
+    #ip_address = models.GenericIPAddressField(unique=True)
     name = models.CharField(max_length=100)
     initialized = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True)
-    cluster = models.ForeignKey('core.Cluster', on_delete=models.CASCADE)
+    #cluster = models.ForeignKey('core.Cluster', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.ip_address
+        return str(self.uuid)
 
 
 
@@ -32,9 +32,8 @@ class Performance(models.Model):
         return ['cpu_freq', 'cpu_usage', 'mem_usage', 'mem_avail', 'mem_perc']
 
     node = models.ForeignKey(
-        Node,
-        to_field='uuid',
-        on_delete=models.CASCADE,
+        'Node',
+        on_delete=models.CASCADE
     )
     data_columns = ArrayField(models.CharField(max_length=30, blank=True), default=columns_default)
     data_start = models.DateTimeField(blank=True, null=True)
@@ -44,7 +43,7 @@ class Performance(models.Model):
     last_update = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'name'
+        return self.node
 
     class Meta:
         verbose_name = 'Performance'

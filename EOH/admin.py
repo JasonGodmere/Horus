@@ -6,7 +6,7 @@ from .models import Node, Performance
 
 class NodeAdmin(admin.ModelAdmin):
     readonly_fields = ('uuid',)
-    list_display = ('name', 'ip_address', 'initialized', 'last_update')
+    list_display = ('name', 'initialized', 'last_update')
 
 admin.site.register(Node, NodeAdmin)
 
@@ -14,6 +14,7 @@ admin.site.register(Node, NodeAdmin)
 #EOH Node database field for server performance (cpu, mem, sensors)
 class PerformanceAdmin(admin.ModelAdmin):
 	readonly_fields = (
+		'node',
 		'data_columns', 
 		'rows', 
 		'data_start', 
@@ -21,5 +22,13 @@ class PerformanceAdmin(admin.ModelAdmin):
 		'initialized', 
 		'last_update'
 	)
+	list_display = (
+		'node', 
+		'initialized', 
+		'data_start', 
+		'data_end',
+		'last_update',
+	)
+
 
 admin.site.register(Performance, PerformanceAdmin)
