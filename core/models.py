@@ -4,6 +4,8 @@ from django.db import models
 # Custom user authentication model
 from django.contrib.auth.models import AbstractUser
 
+
+# Custom User class that inherits the basic functionality of the default user class
 class User(AbstractUser):
 	pass
 

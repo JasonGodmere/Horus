@@ -1,9 +1,61 @@
 from django.db import models
+from django.conf import settings
+
+#used for custom token model
+from django.utils.translation import gettext as _
+
 # Postgresql specific field
 from django.contrib.postgres.fields import ArrayField
 
-# 3rd party
+# 3rd party/standard
 import uuid
+import binascii
+import os
+
+
+# Custom Token class (has all fields of Token minus User)
+# the user column is replaced with Node for authentication
+# of EOH nodes utilizing token auth
+class NodeToken(models.Model):
+    """
+    The default authorization token model.
+
+    sourced with print(inspect.getsource(Token)), simply deleted removed user entry
+    """
+    key = models.CharField(_("Key"), max_length=40, primary_key=True)
+    '''user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, related_name='auth_token',
+        on_delete=models.CASCADE, verbose_name=_("User")
+    )'''
+    ## CUSTOM FIELD 'node' replaces user default above
+    node = models.OneToOneField(
+        settings.AUTH_NODE_MODEL, related_name='auth_token',
+        on_delete=models.CASCADE, verbose_name=_("Node")
+    )
+
+    created = models.DateTimeField(_("Created"), auto_now_add=True)
+
+    class Meta:
+        # Work around for a bug in Django:
+        # https://code.djangoproject.com/ticket/19422
+        #
+        # Also see corresponding ticket:
+        # https://github.com/encode/django-rest-framework/issues/705
+        abstract = 'rest_framework.authtoken' not in settings.INSTALLED_APPS
+        verbose_name = _("NodeToken")
+        verbose_name_plural = _("NodeTokens")
+
+    def save(self, *args, **kwargs):
+        if not self.key:
+            self.key = self.generate_key()
+        return super().save(*args, **kwargs)
+
+    @classmethod
+    def generate_key(cls):
+        return binascii.hexlify(os.urandom(20)).decode()
+
+    def __str__(self):
+        return self.key
 
 
 # EOH Node Model

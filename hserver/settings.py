@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'snippets',
     'EOH',
+    'rest_framework.authtoken',
 
     # websocket/client
     'channels',
@@ -55,6 +56,9 @@ INSTALLED_APPS = [
 
 ### Points django to custom user model
 AUTH_USER_MODEL = 'core.User'
+
+### Used for custom token authentication for EOH nodes
+AUTH_NODE_MODEL = 'EOH.Node'
 
 
 MIDDLEWARE = [
