@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 
     # rest api
     'rest_framework',
-    'snippets',
+    # 'snippets',
     'EOH',
     'rest_framework.authtoken',
 

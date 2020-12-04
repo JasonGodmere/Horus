@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-#used for custom token model
+# custom token model dependencies
 from django.utils.translation import gettext as _
 
 # Postgresql specific field

@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
 urlpatterns = [
 	path('', include('main.urls')),
 	path('hub/', include('hub.urls')),
@@ -24,5 +25,5 @@ urlpatterns = [
 
 ### TYPE 1 - Code ###
 urlpatterns += [
-    path('', include('snippets.urls')),
+    #path('', include('snippets.urls')),
 ]

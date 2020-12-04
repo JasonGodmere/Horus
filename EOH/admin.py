@@ -3,6 +3,7 @@ from .models import Node, Performance, NodeToken
 
 # NodeTokenAdmin dependencies
 from django.contrib.admin.views.main import ChangeList
+from django.core.exceptions import ValidationError
 from django.contrib.admin.utils import quote
 from django.urls import reverse
 
@@ -39,7 +40,7 @@ class NodeTokenAdmin(admin.ModelAdmin):
         field = Node._meta.pk
         try:
             object_id = field.to_python(object_id)
-            node = Node.objects.get(**{field.UUID: object_id})
+            node = Node.objects.get(**{field.name: object_id})
             return queryset.get(node=node)
         except (queryset.model.DoesNotExist, Node.DoesNotExist, ValidationError, ValueError):
             return None
