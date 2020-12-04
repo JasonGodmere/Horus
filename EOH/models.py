@@ -78,7 +78,7 @@ class Node(models.Model):
 
 
 
-### Systems data storage ###
+### EOH node data logs ###
 #
 # Each model revolves around a csv file containing the 
 # time series data with in the scope of data_start, data_end
