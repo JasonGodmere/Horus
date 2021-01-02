@@ -70,7 +70,7 @@ class Node(models.Model):
     name = models.CharField(max_length=100)
     initialized = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True)
-    cluster = models.ForeignKey('core.Cluster', on_delete=models.CASCADE)
+    cluster = models.ForeignKey('core.Cluster', related_name='nodes', on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.id)
@@ -79,14 +79,6 @@ class Node(models.Model):
 
 
 ### EOH node data logs ###
-#
-# Each model revolves around a csv file containing the 
-# time series data with in the scope of data_start, data_end
-# and in the columns of data_columns. The first column is the
-# timestamp and a new entry for the same node will be made 
-# at a time interval to prevent an individual file from getting
-# too large. (currently shooting for a 30 day window for each
-# new file)
 
 # EOH Node Performance (cpu, gpu, memory, temps) data storage table
 class Performance(models.Model):

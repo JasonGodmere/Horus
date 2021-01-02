@@ -5,10 +5,28 @@ from rest_framework import serializers
 
 ### EOH to Horus data sync serializers ###
 
+
+from EOH.models import Node
+
+class NodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Node
+        fields = [
+            'uuid',
+            'ip_address',
+            'name',
+            'initialized',
+            'last_update',
+            'cluster'
+        ]
+
+
+
+
 # Performance Model
 from EOH.models import Performance
 
-class PerformanceSerializer(serializers.Serializer):
+class PerformanceLogSerializer(serializers.Serializer):
     timestamp = serializers.DateTimeField()
 
     general_data = serializers.DictField(child=serializers.CharField(), default={})
@@ -26,7 +44,7 @@ class PerformanceSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         """
-        Update and return an existing `Snippet` instance, given the validated data.
+        Update and return an existing `Performance` instance, given the validated data.
         """
         instance.timestamp = validated_data.get('timestamp', instance.timestamp)
         instance.general_data = validated_data.get('general_data', instance.general_data)

@@ -1,55 +1,34 @@
 
-from django.http import Http404
-from rest_framework.views import APIView
+
+
+
+
+
+
+### Basic Authentication 
+# MUST REQUIRE HTTPS IN PRODUCTION
+
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.views import APIView
 
-from EOH.models import Performance
-from EOH.serializers import EOHSerializer
+from django.http import JsonResponse
 
+class InitNode(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
-
-class SnippetList(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
     def get(self, request, format=None):
-        snippets = Snippet.objects.all()
-        serializer = SnippetSerializer(snippets, many=True)
-        return Response(serializer.data)
+        content = {
+            'user': str(request.user),  # `django.contrib.auth.User` instance.
+            'auth': str(request.auth),  # None
+        }
+        return JsonResponse({"hi": 1})
 
-    def post(self, request, format=None):
-        serializer = SnippetSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class SnippetDetail(APIView):
-    """
-    Retrieve, update or delete a snippet instance.
-    """
-    def get_object(self, pk):
-        try:
-            return Snippet.objects.get(pk=pk)
-        except Snippet.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = SnippetSerializer(snippet)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = SnippetSerializer(snippet, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        snippet.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def post(self, request, *args, **kwargs):
+        content = {
+            'user': str(request.user),  # `django.contrib.auth.User` instance.
+            'auth': str(request.auth),  # None
+        }
+        return JsonResponse({"hi": 1})
