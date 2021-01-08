@@ -12,7 +12,8 @@ class User(AbstractUser):
 # Profile is just an extension of the user (one to one)
 class Profile(models.Model):
 	user = models.OneToOneField(
-		User,
+		'User',
+		related_name='profile',
 		on_delete=models.CASCADE,
 		primary_key=True,
 	)
@@ -29,7 +30,11 @@ class Cluster(models.Model):
 	created_on = models.DateTimeField(auto_now_add=True)
 	last_update = models.DateTimeField(auto_now=True)
 
-	owner = models.ForeignKey('User', on_delete=models.CASCADE)
+	owner = models.ForeignKey(
+		'User', 
+		on_delete=models.CASCADE, 
+		related_name='clusters'
+	)
 	contributors = models.ManyToManyField('Profile', blank=True, null=True)
 
 
